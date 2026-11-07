@@ -98,7 +98,7 @@ public class PanelAdministracion extends JPanel{
         } catch (
                 PalabraInvalidaException| PalabraDuplicadaException ex) {
             sonido.reproducir(EfectoSonido.ALERTA);
-            JOptionPane.showMessageDialog(this,ex.getMessage(), "No se pudo agregar",OptionPane.WARNING_MESSAGE
+            JOptionPane.showMessageDialog(this,ex.getMessage(), "No se pudo agregar",JOptionPane.WARNING_MESSAGE
             );
         }
     }
