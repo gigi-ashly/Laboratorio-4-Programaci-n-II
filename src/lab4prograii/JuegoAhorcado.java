@@ -12,11 +12,9 @@ import java.util.List;
  */
 public interface JuegoAhorcado {
 
-    void establecerPalabraSecreta(String palabra)
-            throws PalabraInvalidaException;
+    void establecerPalabraSecreta(String palabra) throws PalabraInvalidaException;
 
-    ResultadoLetra ingresarLetra(String entrada)
-            throws LetraInvalidaException, LetraRepetidaException, PartidaTerminadaException;
+    ResultadoLetra ingresarLetra(String entrada) throws LetraInvalidaException, LetraRepetidaException, PartidaTerminadaException;
 
     void reiniciar() throws PalabraInvalidaException;
 
