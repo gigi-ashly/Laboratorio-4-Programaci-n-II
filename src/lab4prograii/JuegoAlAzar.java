@@ -9,6 +9,29 @@ package lab4prograii;
  *
  * @author gigiw
  */
-public class JuegoAlAzar {
-    
+public class JuegoAlAzar extends JuegoBase {
+
+    private static final long serialVersionUID = 1L;
+    private AdministradorPalabras administrador;
+
+    public JuegoAlAzar(AdministradorPalabras administrador) throws PalabraInvalidaException {
+        super();
+        if (administrador == null) {
+            throw new IllegalArgumentException("El administrador de palabras no puede ser nulo.");
+        }
+
+        this.administrador = administrador;
+        reiniciar();
+    }
+
+    @Override
+    protected String elegirPalabra() throws PalabraInvalidaException {
+        return administrador.obtenerAleatoria();
+    }
+
+    @Override
+    public Modalidad getModalidad() {
+        return Modalidad.AL_AZAR;
+    }
 }
+

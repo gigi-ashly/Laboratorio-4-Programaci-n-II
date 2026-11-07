@@ -78,10 +78,9 @@ public abstract class JuegoBase implements JuegoAhorcado, Serializable {
             throw new LetraInvalidaException("Ingrese una única letra (A-Z o Ñ).");
         }
 
-        if (letrasAcertadas.contains(letra)|| letrasErradas.contains(letra)) {
-            throw new LetraRepetidaException("La letra " + letra + " ya fue ingresada.");
+       if (letrasAcertadas.contains(letra) || letrasErradas.contains(letra)) {
+            throw new LetraRepetidaException("La letra " + letra + " ya fue ingresada.",letra);
         }
-
         ResultadoLetra resultado;
 
         if (palabraSecreta.indexOf(letra) >= 0) {
