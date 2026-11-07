@@ -20,131 +20,107 @@ Para el funcionamiento del juego se establecieron las siguientes reglas:
 - No se permiten letras repetidas y estas no descuentan intentos.
 
 ### 2. Diagrama de clases
+```mermaid
 classDiagram
-direction TB
+    direction TB
 
-namespace Modelo {
+    class Lab4PrograII
+
     class JuegoAhorcado {
         <<interface>>
-        +establecerPalabraSecreta(String)
-        +ingresarLetra(String) ResultadoLetra
+        +ingresarLetra(char letra) ResultadoLetra
         +reiniciar()
-        +getPalabraMostrada()
-        +getIntentosRestantes()
-        +getEstado()
-        +getModalidad()
+        +getModalidad() Modalidad
     }
 
     class JuegoBase {
         <<abstract>>
         #palabraSecreta String
-        #palabraMostrada char[]
+        #palabraMostrada String
         #intentosRestantes int
-        #letrasAcertadas List
-        #letrasErradas List
+        #MAX_INTENTOS int
+        #letrasAcertadas Set
+        #letrasErradas Set
         #etapa EtapaAhorcado
         #estado EstadoPartida
-        +establecerPalabraSecreta(String)
-        +ingresarLetra(String) ResultadoLetra
+        +ingresarLetra(char letra) ResultadoLetra
         +reiniciar()
-        #revelarLetra(char, int)
-        #haGanado(int) boolean
+        +revelarLetra(int indice, char letra)
+        +haGanado() boolean
         +haPerdido() boolean
-        #elegirPalabra()* String
-        +getModalidad()* Modalidad
+        +elegirPalabra()*
+        +getModalidad()*
     }
 
     class JuegoPalabraFija {
         -palabraConfigurada String
-        +cambiarPalabra(String)
-        #elegirPalabra() String
+        +cambiarPalabra(String palabra)
+        +elegirPalabra()
         +getModalidad() Modalidad
     }
 
     class JuegoAlAzar {
         -administrador AdministradorPalabras
-        #elegirPalabra() String
+        +elegirPalabra()
         +getModalidad() Modalidad
     }
 
     class AdministradorPalabras {
         -palabras ArrayList
-        +agregar(String)
+        +agregar(String palabra)
         +obtenerAleatoria() String
-        -existe(String, int) boolean
+        +existe(String palabra, int indice) boolean
         +cantidad() int
         +getPalabras() ArrayList
     }
 
     class UtilTexto {
         <<utility>>
-        +normalizar(String) String
-        +esLetra(char) boolean
+        +normalizar(String texto) String
+        +esLetra(char letra) boolean
     }
 
     class EstadoPartida {
         <<enumeration>>
-        EN_CURSO
-        GANADA
-        PERDIDA
     }
 
     class ResultadoLetra {
         <<enumeration>>
-        ACIERTO
-        ERROR
     }
 
     class Modalidad {
         <<enumeration>>
-        PALABRA_FIJA
-        AL_AZAR
     }
 
     class EtapaAhorcado {
         <<enumeration>>
-        VACIO
-        CABEZA
-        TRONCO
-        BRAZO_IZQ
-        BRAZO_DER
-        PIERNA_IZQ
-        PIERNA_DER
     }
-}
 
-namespace Excepciones {
     class AhorcadoException {
         <<exception>>
     }
+
     class LetraInvalidaException
     class LetraRepetidaException
     class PartidaTerminadaException
     class PalabraInvalidaException
     class PalabraDuplicadaException
-}
-
-namespace Interfaz {
-    class Lab4PrograII {
-        +main(String[] args)
-    }
 
     class VentanaPrincipal {
         -tarjetas CardLayout
         -contenedor JPanel
         -administrador AdministradorPalabras
         -sonido GestorSonido
+        -panelMenu PanelMenu
+        -panelAdministracion PanelAdministracion
     }
 
-    class PanelMenu {
-        +PanelMenu(Runnable, Runnable, Runnable, Runnable)
-    }
+    class PanelMenu
 
     class PanelJuego {
         -juego JuegoAhorcado
         -sonido GestorSonido
         -dibujo PanelDibujo
-        +PanelJuego(JuegoAhorcado, GestorSonido, Runnable)
     }
 
     class PanelDibujo {
@@ -156,65 +132,50 @@ namespace Interfaz {
     class PanelAdministracion {
         -administrador AdministradorPalabras
         -sonido GestorSonido
-        +agregarPalabra()
-        +actualizarLista()
     }
 
     class GestorSonido {
-        -silenciado boolean
-        -disponible boolean
         +reproducir(EfectoSonido)
-        +setSilenciado(boolean)
-        +isSilenciado() boolean
     }
 
     class EfectoSonido {
         <<enumeration>>
-        ACIERTO
-        ERROR
-        ALERTA
-        VICTORIA
-        DERROTA
     }
-}
 
-JuegoBase ..|> JuegoAhorcado
-JuegoPalabraFija --|> JuegoBase
-JuegoAlAzar --|> JuegoBase
-JuegoAlAzar --> AdministradorPalabras
-JuegoBase ..> UtilTexto
-AdministradorPalabras ..> UtilTexto
+    JuegoAhorcado <|.. JuegoBase
+    JuegoBase <|-- JuegoPalabraFija
+    JuegoBase <|-- JuegoAlAzar
+    JuegoAlAzar --> AdministradorPalabras
+    JuegoBase ..> UtilTexto
+    AdministradorPalabras ..> UtilTexto
 
-JuegoBase --> EstadoPartida
-JuegoBase --> EtapaAhorcado
-JuegoBase ..> ResultadoLetra
-JuegoBase ..> Modalidad
+    JuegoBase --> EstadoPartida
+    JuegoBase --> ResultadoLetra
+    JuegoBase --> Modalidad
+    JuegoBase --> EtapaAhorcado
 
-LetraInvalidaException --|> AhorcadoException
-LetraRepetidaException --|> AhorcadoException
-PartidaTerminadaException --|> AhorcadoException
-PalabraInvalidaException --|> AhorcadoException
-PalabraDuplicadaException --|> AhorcadoException
+    AhorcadoException <|-- LetraInvalidaException
+    AhorcadoException <|-- LetraRepetidaException
+    AhorcadoException <|-- PartidaTerminadaException
+    AhorcadoException <|-- PalabraInvalidaException
+    AhorcadoException <|-- PalabraDuplicadaException
 
-Lab4PrograII --> VentanaPrincipal
-VentanaPrincipal --> PanelMenu
-VentanaPrincipal --> PanelJuego
-VentanaPrincipal --> PanelAdministracion
-VentanaPrincipal --> AdministradorPalabras
-VentanaPrincipal --> GestorSonido
+    Lab4PrograII --> VentanaPrincipal
+    VentanaPrincipal --> PanelMenu
+    VentanaPrincipal --> PanelJuego
+    VentanaPrincipal --> PanelAdministracion
+    VentanaPrincipal --> AdministradorPalabras
+    VentanaPrincipal --> GestorSonido
 
-PanelJuego --> JuegoAhorcado
-PanelJuego --> PanelDibujo
-PanelJuego --> GestorSonido
-PanelJuego --> EfectoSonido
-PanelJuego --> EstadoPartida
-PanelAdministracion --> AdministradorPalabras
-PanelAdministracion --> GestorSonido
-PanelAdministracion ..> PalabraInvalidaException
-PanelAdministracion ..> PalabraDuplicadaException
-PanelDibujo --> EtapaAhorcado
-GestorSonido --> EfectoSonido
+    PanelJuego --> JuegoAhorcado
+    PanelJuego --> PanelDibujo
+    PanelJuego --> GestorSonido
+    PanelDibujo --> EtapaAhorcado
+    PanelAdministracion --> AdministradorPalabras
+    PanelAdministracion --> GestorSonido
 
+    GestorSonido --> EfectoSonido
+```
 ### 3. Uso de Serializable
 
 Se implementa `Serializable` en las clases del modelo que lo requieren. Esta es una interfaz marcadora, es decir, no contiene métodos que deban implementarse, sino que indica que los objetos pueden ser serializados.
