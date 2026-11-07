@@ -9,6 +9,14 @@ package lab4prograii;
  *
  * @author gigiw
  */
-public class EtapaAhorcado {
-    
+public enum EtapaAhorcado {
+  
+    VACIO, CABEZA, TRONCO, BRAZO_IZQ, BRAZO_DER, PIERNA_IZQ, PIERNA_DER;
+
+    public static EtapaAhorcado dePorErrores(int errores) {
+        if (errores < 0 || errores > 6) {
+            throw new IllegalArgumentException("La cantidad de errores debe estar entre 0 y 6.");
+        }
+        return values()[errores];
+    }  
 }

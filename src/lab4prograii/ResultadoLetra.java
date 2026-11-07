@@ -9,6 +9,6 @@ package lab4prograii;
  *
  * @author gigiw
  */
-public class ResultadoLetra {
-    
+public enum ResultadoLetra {
+    ACIERTO, ERROR
 }

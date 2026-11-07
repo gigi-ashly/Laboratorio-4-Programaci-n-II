@@ -9,6 +9,6 @@ package lab4prograii;
  *
  * @author gigiw
  */
-public class EstadoPartida {
-    
+public enum EstadoPartida {
+    EN_CURSO, GANADA, PERDIDA
 }

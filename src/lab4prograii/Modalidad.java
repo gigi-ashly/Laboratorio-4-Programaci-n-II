@@ -9,6 +9,17 @@ package lab4prograii;
  *
  * @author gigiw
  */
-public class Modalidad {
-    
+public enum Modalidad {
+    PALABRA_FIJA("Palabra fija"),
+    AL_AZAR("Palabra al azar");
+
+    private final String textoBoton;
+
+    Modalidad(String textoBoton) {
+        this.textoBoton = textoBoton;
+    }
+
+    public String getTextoBoton() {
+        return textoBoton;
+    }
 }
