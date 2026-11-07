@@ -1,11 +1,11 @@
 # Juego del Ahorcado
 
-**Trabajo práctico de Programación II**
+**Laboratorio 4 de Programación II**
 
 ### Integrantes
-- Ashly Martinez
-- Rodrigo Hernandez
-- Angili Palacios
+- Ashly Martinez - 22451011
+- Rodrigo Hernandez - 22611163
+- Angili Palacios - 62611135
 
 ### 1. Reglas de validación
 
