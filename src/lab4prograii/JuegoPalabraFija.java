@@ -9,6 +9,29 @@ package lab4prograii;
  *
  * @author gigiw
  */
-public class JuegoPalabraFija {
-    
+public class JuegoPalabraFija extends JuegoBase {
+
+    private static final long serialVersionUID = 1L;
+
+    private String palabraConfigurada;
+
+    public JuegoPalabraFija(String palabra) throws PalabraInvalidaException {
+        super();
+        palabraConfigurada = palabra;
+        reiniciar();
+    }
+
+    public void cambiarPalabra(String nuevaPalabra) {
+        palabraConfigurada = nuevaPalabra;
+    }
+
+    @Override
+    protected String elegirPalabra() throws PalabraInvalidaException {
+        return palabraConfigurada;
+    }
+
+    @Override
+    public Modalidad getModalidad() {
+        return Modalidad.PALABRA_FIJA;
+    }
 }
