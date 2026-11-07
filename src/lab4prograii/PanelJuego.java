@@ -172,20 +172,18 @@ public class PanelJuego extends JPanel{
         }
     }
 
-    private void probarLetra() {
+   private void probarLetra() {
         try {
+       
             ResultadoLetra resultado = juego.ingresarLetra(
                     campoLetra.getText()
             );
             if (resultado == ResultadoLetra.ACIERTO) {
                 sonido.reproducir(EfectoSonido.ACIERTO);
-                mensaje.setText("Muy bien esa letra si esta."
-                );
-
+                mensaje.setText("Muy bien esa letra si esta.");
             } else {
                 sonido.reproducir(EfectoSonido.ERROR);
-                mensaje.setText("Esa letra no está. Intenta otra."
-                );
+                mensaje.setText("Esa letra no está. Intenta otra.");
             }
             marcarTecla(
                     campoLetra.getText().toUpperCase()
@@ -196,9 +194,7 @@ public class PanelJuego extends JPanel{
                 LetraInvalidaException
                 | LetraRepetidaException
                 | PartidaTerminadaException ex) {
-
             sonido.reproducir(EfectoSonido.ALERTA);
-
             mensaje.setText(ex.getMessage());
         }
     }
@@ -219,33 +215,22 @@ public class PanelJuego extends JPanel{
     }
 
     private void actualizarPantalla() {
+     
+        palabra.setText(juego.getPalabraMostrada());
 
-        palabra.setText(
-                formatearPalabra(juego.getPalabraMostrada())
-        );
+        intentos.setText("Intentos restantes: " + juego.getIntentosRestantes() + " / 6");
 
-        intentos.setText("Intentos restantes: "+ juego.getIntentosRestantes()+ " / 6"
-        );
-
-        acertadas.setText("Acertadas: " + juego.getLetrasAcertadas()
-        );
-
-        erradas.setText("Erradas: " + juego.getLetrasErradas()
-        );
+        acertadas.setText("Acertadas: " + juego.getLetrasAcertadas());
+        erradas.setText("Erradas: " + juego.getLetrasErradas());
 
         dibujo.setEtapa(juego.getEtapa());
 
         if (juego.getEstado() == EstadoPartida.GANADA) {
-
-            mensaje.setText("¡Ganaste! Completaste la palabra."
-            );
-
+            mensaje.setText("¡Ganaste! Completaste la palabra.");
             terminarPartida();
             sonido.reproducir(EfectoSonido.VICTORIA);
-
         } else if (juego.getEstado() == EstadoPartida.PERDIDA) {
-            mensaje.setText("Perdiste. La palabra era: "+ juego.getPalabraSecreta()
-            );
+            mensaje.setText("Perdiste. La palabra era: " + juego.getPalabraSecreta());
             terminarPartida();
             sonido.reproducir(EfectoSonido.DERROTA);
         }
